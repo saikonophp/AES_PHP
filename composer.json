@@ -1,0 +1,8 @@
+{
+    "name": "saikonophp/AES_PHP",
+    "description": "Encrypt a file or string with aes128, aes192 or aes256.",
+    "require": {
+        "php": "^7.1",
+        "lib-openssl": "*"
+    }
+}
