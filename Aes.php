@@ -13,13 +13,12 @@ class saikonophpAes
 
     public function __construct($encryption_key, $iv, $encryption_type = 'AES128')
     {
-        if($encryption_type == "AES128")
+        if($encryption_type == null)
             $this->encryption_type = AES_128_CBC;
-        else if($encryption_type == "AES192")
-            $this->encryption_type = AES_192_CBC;
-        else if($encryption_type == "AES256")
-            $this->encryption_type = AES_256_CBC;
-        else if($encryption_type == "aes128")
+        else
+            $encryption_type = strtolower($encryption_type);
+
+        if($encryption_type == "aes128")
             $this->encryption_type = AES_128_CBC;
         else if($encryption_type == "aes192")
             $this->encryption_type = AES_192_CBC;
@@ -72,14 +71,14 @@ class saikonophpAes
     public function setEncryptionType($setEncryptionType)
     {
         if($setEncryptionType == null)
+        {
             $this->encryption_type = AES_128_CBC;
-        else if($setEncryptionType == "AES128")
-            $this->encryption_type = AES_128_CBC;
-        else if($setEncryptionType == "AES192")
-            $this->encryption_type = AES_192_CBC;
-        else if($setEncryptionType == "AES256")
-            $this->encryption_type = AES_256_CBC;
-        else if($setEncryptionType == "aes128")
+            return;
+        }
+
+        $setEncryptionType = strtolower($setEncryptionType);
+
+        if($setEncryptionType == "aes128")
             $this->encryption_type = AES_128_CBC;
         else if($setEncryptionType == "aes192")
             $this->encryption_type = AES_192_CBC;
@@ -106,17 +105,14 @@ class saikonophpAes
             return 'AES256';
     }
 
-    public function generateNewEncryptionKey($encryption_type)
+    public function generateNewEncryptionKey($encryption_type = 'AES128')
     {
         if($encryption_type == null)
             return base64_encode(openssl_random_pseudo_bytes(128));
-        else if($encryption_type == "AES128")
-            return base64_encode(openssl_random_pseudo_bytes(128));
-        else if($encryption_type == "AES192")
-            return base64_encode(openssl_random_pseudo_bytes(192));
-        else if($encryption_type == "AES256")
-            return base64_encode(openssl_random_pseudo_bytes(256));
-        else if($encryption_type == "aes128")
+        else
+            $encryption_type = strtolower($encryption_type);
+
+        if($encryption_type == "aes128")
             return base64_encode(openssl_random_pseudo_bytes(128));
         else if($encryption_type == "aes192")
             return base64_encode(openssl_random_pseudo_bytes(192));
@@ -127,13 +123,10 @@ class saikonophpAes
     {
         if($encryption_type == null)
             return base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length(AES_128_CBC)));
-        else if($encryption_type == "AES128")
-            return base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length(AES_128_CBC)));
-        else if($encryption_type == "AES192")
-            return base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length(AES_192_CBC)));
-        else if($encryption_type == "AES256")
-            return base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length(AES_256_CBC)));
-        else if($encryption_type == "aes128")
+        else
+            $encryption_type = strtolower($encryption_type);
+
+        if($encryption_type == "aes128")
             return base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length(AES_128_CBC)));
         else if($encryption_type == "aes192")
             return base64_encode(openssl_random_pseudo_bytes(openssl_cipher_iv_length(AES_192_CBC)));
