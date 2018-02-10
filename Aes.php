@@ -55,6 +55,29 @@ class saikonophpAes
         return openssl_encrypt($plaintext, $this->encryption_type, $this->encryption_key, 0, $this->iv);
     }
 
+    public function encrypt_file($filetoencrypt, $savetoFile)
+    {
+        if(File($filetoencrypt) && $savetoFile != null) {
+            $plaintext = base64_encode(file_get_contents($filetoencrypt));
+            $encrypted_text = openssl_encrypt($plaintext, $this->encryption_type, $this->encryption_key, 0, $this->iv);
+            file_put_contents($savetoFile, $encrypted_text);
+            return "success";
+        }
+        else
+            return "Nofile";
+    }
+    public function decrypt_file($filetodecrypt, $savetoFile)
+    {
+        if(File($filetodecrypt) && $savetoFile != null) {
+            $plaintext = file_get_contents($filetodecrypt);
+            $encrypted_text = openssl_decrypt($plaintext, $this->encryption_type, $this->encryption_key, 0, $this->iv);
+            file_put_contents($savetoFile, base64_decode($encrypted_text));
+            return "success";
+        }
+        else
+            return "Nofile";
+    }
+
     public function decrypt($plaintext)
     {
         return base64_decode(openssl_decrypt($plaintext, $this->encryption_type, $this->encryption_key, 0, $this->iv));
